@@ -1,12 +1,52 @@
 # /src/app.py
 
-from flask import Flask
+from flask import Flask, request, jsonify 
+from models import tasks, Task
 
 app = Flask(__name__)
 
-@app.route('/')
+# Rota de @app.route('/')
 def home():
     return "<h1>Sistema de Gerenciamento de Tarefas</h1><p>Em construção...</p>"
+
+# Rota para listar todas as tarefas (CRUD - Read)
+@app.route('/tasks', methods=['GET'])
+def get_tasks():
+    return jsonify({"tasks": tasks})
+
+# Rota para criar uma nova tarefa (CRUD - Create)
+@app.route('/tasks', methods=['POST'])
+def create_task():
+    data = request.get_json()
+    title = data.get('title')
+    description = data.get('description')
+
+    if not title:
+        return jsonify({"error": "O título da tarefa é obrigatório"}), 400
+
+    new_task = Task(title, description)
+    tasks.append(new_task.__dict__)
+
+    return jsonify(new_task.__dict__), 201
+
+# Rota para atualizar uma tarefa (CRUD - Update)
+@app.route('/tasks/<int:task_id>', methods=['PUT'])
+def update_task(task_id):
+    task_found = None
+    for task in tasks:
+        if task['id'] == task_id:
+            task_found = task
+            break
+
+    if not task_found:
+        return jsonify({"error": "Tarefa não encontrada"}), 404
+
+    data = request.get_json()
+    task_found['title'] = data.get('title', task_found['title'])
+    task_found['description'] = data.get('description', task_found['description'])
+    task_found['status'] = data.get('status', task_found['status'])
+
+    return jsonify(task_found)
 
 
 if __name__ == '__main__':
