@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 # .github/workflows/main.yml
-=======
->>>>>>> 442f20a354a0abd8b88920286dd8b2c74c91fbc6
 name: Testes Automatizados
 
 on:
@@ -24,8 +21,4 @@ jobs:
         pip install -r requirements.txt
     - name: Rodar testes
       run: |
-<<<<<<< HEAD
         pytest
-=======
-        pytest
->>>>>>> 442f20a354a0abd8b88920286dd8b2c74c91fbc6
