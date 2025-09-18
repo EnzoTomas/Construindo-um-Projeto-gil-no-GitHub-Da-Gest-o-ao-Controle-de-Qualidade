@@ -48,6 +48,18 @@ def update_task(task_id):
 
     return jsonify(task_found)
 
+    # Rota para excluir uma tarefa (CRUD - Delete)
+@app.route('/tasks/<int:task_id>', methods=['DELETE'])
+def delete_task(task_id):
+    global tasks
+    # Procura a tarefa pelo ID e a remove da lista
+    initial_task_count = len(tasks)
+    tasks = [task for task in tasks if task['id'] != task_id]
+
+    if len(tasks) < initial_task_count:
+        return jsonify({"message": f"Tarefa com ID {task_id} foi excluída com sucesso"}), 200
+    else:
+        return jsonify({"error": "Tarefa não encontrada"}), 404
 
 if __name__ == '__main__':
     app.run(debug=True)
