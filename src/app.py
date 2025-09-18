@@ -1,7 +1,7 @@
 # /src/app.py
 
 from flask import Flask, request, jsonify 
-from models import tasks, Task
+from .models import tasks, Task
 
 app = Flask(__name__)
 
