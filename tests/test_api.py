@@ -13,13 +13,31 @@ def client():
     with app.test_client() as client:
         yield client
 
-def test_create_task(client):
+def test_create_task_with_priority(client):
     """
-    Testa se a criação de uma tarefa retorna o status 201 e o ID correto.
+    Testa se a criação de uma tarefa com prioridade funciona corretamente.
     """
-    response = client.post('/tasks', json={'title': 'Tarefa de Teste', 'description': 'Descrição'})
-    data = response.get_json()
+    data = {'title': 'Tarefa com Prioridade', 'description': 'Testando a prioridade', 'priority': 'Alta'}
+    response = client.post('/tasks', json=data)
+    response_data = response.get_json()
 
     assert response.status_code == 201
-    assert data['title'] == 'Tarefa de Teste'
-    assert data['id'] is not None
+    assert response_data['title'] == 'Tarefa com Prioridade'
+    assert response_data['priority'] == 'Alta'
+    assert response_data['id'] is not None
+
+def test_update_task_priority(client):
+    """
+    Testa se a prioridade de uma tarefa pode ser atualizada.
+    """
+    
+    create_response = client.post('/tasks', json={'title': 'Tarefa para Atualizar'})
+    task_id = create_response.get_json()['id']
+
+    
+    update_data = {'priority': 'Baixa'}
+    update_response = client.put(f'/tasks/{task_id}', json=update_data)
+    update_response_data = update_response.get_json()
+
+    assert update_response.status_code == 200
+    assert update_response_data['priority'] == 'Baixa'

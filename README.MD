@@ -20,3 +20,6 @@
 ### Limitar o trabalho em andamento para evitar gargalos.
 
 ### Garantir um fluxo de entrega constante e previsível.
+
+# Justificativa para Mudanças no Escopo
+### Durante o desenvolvimento, o cliente solicitou uma alteração no escopo para incluir a funcionalidade de priorização de tarefas. Esta mudança é crucial para que a equipe de logística possa focar em tarefas críticas e otimizar o fluxo de trabalho, garantindo que os itens mais urgentes sejam concluídos primeiro. O sistema permitirá a atribuição de prioridades (Alta, Média, Baixa) a cada tarefa.

@@ -20,11 +20,12 @@ def create_task():
     data = request.get_json()
     title = data.get('title')
     description = data.get('description')
+    priority = data.get('priority', 'Média') # Pega a prioridade do JSON, padrão 'Média'
 
     if not title:
         return jsonify({"error": "O título da tarefa é obrigatório"}), 400
 
-    new_task = Task(title, description)
+    new_task = Task(title, description, priority=priority) # Passa a prioridade para o construtor
     tasks.append(new_task.__dict__)
 
     return jsonify(new_task.__dict__), 201
@@ -45,6 +46,7 @@ def update_task(task_id):
     task_found['title'] = data.get('title', task_found['title'])
     task_found['description'] = data.get('description', task_found['description'])
     task_found['status'] = data.get('status', task_found['status'])
+    task_found['priority'] = data.get('priority', task_found['priority']) # Atualiza a prioridade
 
     return jsonify(task_found)
 
